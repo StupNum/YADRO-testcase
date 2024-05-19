@@ -5,8 +5,6 @@
 #include <vector>
 
 
-size_t backspaceCount(const std::string string);
-
 inline bool isDigit(const char ch) {
     return (ch >= '0' && ch <= '9');
 }
@@ -17,6 +15,8 @@ inline bool isNumber(const std::string& string) {
             return false;
     return true;
 }
+
+size_t backspaceCount(const std::string string);
 
 std::vector<std::string> splitString(const std::string& string);
 
