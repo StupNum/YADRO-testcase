@@ -18,6 +18,5 @@ public:
 private:
     std::string file_path{};
     std::vector<std::vector<std::string>> file_content{};
-
 };
 #endif // FILEHANDLER_H
