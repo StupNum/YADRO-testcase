@@ -1,5 +1,4 @@
 #include "GameClub.h"
-
 #include <algorithm>
 #include <iostream>
 #include "common.h"
@@ -32,20 +31,20 @@ bool GameClub::Client2Table(Time time, std::string client_name, int table_id) {
         return false;
     }
 
-    //если стол свободен тогда 
-    //2 случая, если клиент уже за столом, или если не за столом
+    //РµСЃР»Рё СЃС‚РѕР» СЃРІРѕР±РѕРґРµРЅ С‚РѕРіРґР° 
+    //2 СЃР»СѓС‡Р°СЏ, РµСЃР»Рё РєР»РёРµРЅС‚ СѓР¶Рµ Р·Р° СЃС‚РѕР»РѕРј, РёР»Рё РµСЃР»Рё РЅРµ Р·Р° СЃС‚РѕР»РѕРј
     else {
-        if (client_list[client_name] > -1) { // уже за столом
-            //освобождение текущего стола
+        if (client_list[client_name] > -1) { // СѓР¶Рµ Р·Р° СЃС‚РѕР»РѕРј
+            //РѕСЃРІРѕР±РѕР¶РґРµРЅРёРµ С‚РµРєСѓС‰РµРіРѕ СЃС‚РѕР»Р°
             FreeTable(time, client_list[client_name] - 1);
 
-            //пересадка
+            //РїРµСЂРµСЃР°РґРєР°
             table_list[table_id - 1].first = client_name;
             table_list[table_id - 1].second = time;
         }
 
 
-        else { //еще не за столом
+        else { //РµС‰Рµ РЅРµ Р·Р° СЃС‚РѕР»РѕРј
             table_list[table_id - 1].first = client_name;
             table_list[table_id - 1].second = time;
         }
@@ -57,11 +56,11 @@ bool GameClub::Client2Table(Time time, std::string client_name, int table_id) {
 }
 
 bool GameClub::FreeTable(Time time, int table_id) {
-    //расчет стоимости и времени
+    //СЂР°СЃС‡РµС‚ СЃС‚РѕРёРјРѕСЃС‚Рё Рё РІСЂРµРјРµРЅРё
     Time diff_time = time - table_list[table_id - 1].second;
     table_usage[table_id - 1] = table_usage[table_id - 1] + diff_time;
     table_revenue[table_id - 1] += diff_time.GetRoundedHours() * price;
-    //освобождение
+    //РѕСЃРІРѕР±РѕР¶РґРµРЅРёРµ
     table_list[table_id - 1].first = "";
     table_list[table_id - 1].second = Time();
     return true;
@@ -73,7 +72,7 @@ bool GameClub::ClientWaiting(Time time, std::string client_name) {
         return false;
     }
 
-    //подсчет клиентов в очереди
+    //РїРѕРґСЃС‡РµС‚ РєР»РёРµРЅС‚РѕРІ РІ РѕС‡РµСЂРµРґРё
     size_t count = 0;
     for (const auto& [key, value] : client_list) {
         if (value == -1)
@@ -89,18 +88,18 @@ bool GameClub::ClientWaiting(Time time, std::string client_name) {
 bool GameClub::Close() {
     std::vector<std::pair<std::string, int>> client_vector;
 
-    // Копирование элементов из unordered_map в вектор
+    // РљРѕРїРёСЂРѕРІР°РЅРёРµ СЌР»РµРјРµРЅС‚РѕРІ РёР· unordered_map РІ РІРµРєС‚РѕСЂ
     for (const auto& client : client_list) {
         client_vector.push_back(client);
     }
 
-    // Сортировка вектора в алфавитном порядке
+    // РЎРѕСЂС‚РёСЂРѕРІРєР° РІРµРєС‚РѕСЂР° РІ Р°Р»С„Р°РІРёС‚РЅРѕРј РїРѕСЂСЏРґРєРµ
     std::sort(client_vector.begin(), client_vector.end(),
         [](const std::pair<std::string, int>& a, const std::pair<std::string, int>& b) {
             return a.first < b.first;
         });
 
-    // Вывод или использование отсортированного вектора
+    // Р’С‹РІРѕРґ РёР»Рё РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ РѕС‚СЃРѕСЂС‚РёСЂРѕРІР°РЅРЅРѕРіРѕ РІРµРєС‚РѕСЂР°
     for (const auto& client : client_vector) {
         if (client.second != -1) {
             FreeTable(closing_time, client.second);
@@ -144,7 +143,7 @@ void GameClub::ProceedError(Time time, std::string error) {
     std::cout << time << ' ' << 13 << ' ' << error << '\n';
 }
 
-//возвращает -1 если свободного стола не или индекс первого свободного стола
+//РІРѕР·РІСЂР°С‰Р°РµС‚ -1 РµСЃР»Рё СЃРІРѕР±РѕРґРЅРѕРіРѕ СЃС‚РѕР»Р° РЅРµ РёР»Рё РёРЅРґРµРєСЃ РїРµСЂРІРѕРіРѕ СЃРІРѕР±РѕРґРЅРѕРіРѕ СЃС‚РѕР»Р°
 long long GameClub::GetFreeTable() const {
     for (size_t i = 0; i < table_list.size(); i++) {
         if (table_list[i].first.empty())
@@ -152,8 +151,6 @@ long long GameClub::GetFreeTable() const {
     }
     return -1;
 }
-
-
 
 void GameClub::ProccessFileInfo(GameClub& GC, FileHandler& FH) {
     if (!FH.ReadFile())
