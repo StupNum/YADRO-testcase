@@ -2,9 +2,11 @@
 #include "common.h"
 #include <iostream>
 
+
 Time::Time() : hours(0), minutes(0) {}
 
 Time::Time(int minutes) : hours(minutes / 60), minutes(minutes % 60) {}
+
 Time::Time(int h, int m) : hours(h), minutes(m) {}
 
 Time::Time(const std::string& string) {
@@ -14,15 +16,18 @@ Time::Time(const std::string& string) {
         minutes = std::stoi(string.substr(3, 2));
     }
     else {
-        hours = minutes = -1; // невалидное время
+        hours = minutes = -1; // РЅРµРІР°Р»РёРґРЅРѕРµ РІСЂРµРјСЏ
     }
 }
+
 int Time::Time2Minutes() const {
     return minutes + hours * 60;
 }
+
 int Time::GetRoundedHours() const{
     return hours + (int)(minutes > 0);
 }
+
 bool Time::isValid() const {
     return (hours >= 0 && hours < 24) && (minutes >= 0 && minutes < 60);
 }
@@ -30,9 +35,11 @@ bool Time::isValid() const {
 bool Time::operator> (const Time& other) const {
     return (hours > other.hours) || (hours == other.hours && minutes > other.minutes);
 }
+
 bool Time::operator== (const Time& other) const {
     return (hours == other.hours && minutes == other.minutes);
 }
+
 bool Time::operator>= (const Time& other) const {
     return *this > other || *this == other;
 }
