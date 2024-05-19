@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include "FileHandler.h"
 #include "GameClub.h"
 
