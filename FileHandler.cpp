@@ -18,9 +18,7 @@ namespace
 }
 
 
-
 FileHandler::FileHandler(std::string string) : file_path(string) {};
-
 
 bool FileHandler::ReadFile() {
     std::ifstream input_file(file_path);
@@ -36,37 +34,35 @@ bool FileHandler::ReadFile() {
     return true;
 }
 
-
-// проверка правильности форматирования входного файла
-// возврат -1 если ошибок нет,
-// или -2 в случае, когда данных для работы программы недостаточно, 
-// в остальных случаях неправильного форматирования
-// возврат индекса строки с ошибкой
+// РїСЂРѕРІРµСЂРєР° РїСЂР°РІРёР»СЊРЅРѕСЃС‚Рё С„РѕСЂРјР°С‚РёСЂРѕРІР°РЅРёСЏ РІС…РѕРґРЅРѕРіРѕ С„Р°Р№Р»Р°
+// РІРѕР·РІСЂР°С‚ -1 РµСЃР»Рё РѕС€РёР±РѕРє РЅРµС‚,
+// РёР»Рё -2 РІ СЃР»СѓС‡Р°Рµ, РєРѕРіРґР° РґР°РЅРЅС‹С… РґР»СЏ СЂР°Р±РѕС‚С‹ РїСЂРѕРіСЂР°РјРјС‹ РЅРµРґРѕСЃС‚Р°С‚РѕС‡РЅРѕ, 
+// РІ РѕСЃС‚Р°Р»СЊРЅС‹С… СЃР»СѓС‡Р°СЏС… РЅРµРїСЂР°РІРёР»СЊРЅРѕРіРѕ С„РѕСЂРјР°С‚РёСЂРѕРІР°РЅРёСЏ
+// РІРѕР·РІСЂР°С‚ РёРЅРґРµРєСЃР° СЃС‚СЂРѕРєРё СЃ РѕС€РёР±РєРѕР№
 
 long long FileHandler::ValidateInput() {
     if (file_content.size() < 3)
         return -2;
 
-
     std::vector<std::string> line;
 
-    //строка номер 1
+    //СЃС‚СЂРѕРєР° РЅРѕРјРµСЂ 1
     line = file_content[0];
     if (line.size() != 1 || !isNumber(line[0]))
         return 1;
 
-    //строка номер 2
+    //СЃС‚СЂРѕРєР° РЅРѕРјРµСЂ 2
     line = file_content[1];
     if (line.size() != 2 || !Time(line[0]).isValid() || !Time(line[1]).isValid() ||
         Time(line[0]) > Time(line[1]))
         return 2;
 
-    //строка номер 3
+    //СЃС‚СЂРѕРєР° РЅРѕРјРµСЂ 3
     line = file_content[2];
     if (line.size() != 1 || !isNumber(line[0]))
         return 3;
 
-    //остальные строки
+    //РѕСЃС‚Р°Р»СЊРЅС‹Рµ СЃС‚СЂРѕРєРё
     Time time_prev{};
     for (size_t i = 3; i < file_content.size(); i++) {
         line = file_content[i];
